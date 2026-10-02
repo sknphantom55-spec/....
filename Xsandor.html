@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>XSANDOR — Cyber Intelligence</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#02050a;
+  color:#eaf6ff;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+
+/* ================= BACKGROUND ================= */
+
+#matrix{
+  position:fixed;
+  inset:0;
+  z-index:-5;
+  opacity:.22;
+}
+
+.grid-bg{
+  position:fixed;
+  inset:0;
+  z-index:-4;
+  background-image:
+    linear-gradient(rgba(30,140,255,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,140,255,.07) 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,black,transparent);
+}
+
+.glow{
+  position:fixed;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:rgba(0,100,255,.13);
+  filter:blur(100px);
+  z-index:-3;
+  pointer-events:none;
+  animation:float 9s ease-in-out infinite alternate;
+}
+
+.glow.one{
+  top:-220px;
+  left:-180px;
+}
+
+.glow.two{
+  right:-200px;
+  top:45%;
+  animation-delay:2s;
+}
+
+@keyframes float{
+  to{
+    transform:translate(100px,80px);
+  }
+}
+
+/* ================= NAVBAR ================= */
+
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  background:rgba(2,5,10,.72);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(60,160,255,.12);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+  letter-spacing:4px;
+  font-size:18px;
+}
+
+.logo img{
+  width:39px;
+  height:39px;
+  object-fit:cover;
+  border-radius:9px;
+  border:1px solid #168cff;
+  box-shadow:0 0 22px rgba(0,120,255,.35);
+}
+
+.nav-links{
+  display:flex;
+  gap:28px;
+}
+
+.nav-links a{
+  color:#7e94aa;
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:1px;
+  transition:.25s;
+}
+
+.nav-links a:hover{
+  color:#4eafff;
+}
+
+.nav-btn{
+  padding:10px 17px;
+  border:1px solid #155b94;
+  border-radius:7px;
+  background:rgba(10,42,70,.35);
+  color:#72beff;
+  text-decoration:none;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 20px 70px;
+  position:relative;
+}
+
+.hero-content{
+  max-width:950px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(55,160,255,.22);
+  background:rgba(10,40,70,.25);
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:10px;
+  color:#6bbcff;
+  letter-spacing:2px;
+  margin-bottom:25px;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#32e890;
+  box-shadow:0 0 12px #32e890;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.25;
+    transform:scale(.6);
+  }
+}
+
+.hero h1{
+  font-size:clamp(60px,12vw,145px);
+  line-height:.85;
+  letter-spacing:clamp(5px,2vw,20px);
+  font-weight:1000;
+  background:linear-gradient(
+    180deg,
+    #ffffff,
+    #83c9ff 45%,
+    #147cff
+  );
+  -webkit-background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 0 25px rgba(0,120,255,.2));
+}
+
+.hero h2{
+  margin-top:22px;
+  font-size:clamp(15px,2vw,22px);
+  color:#7891a8;
+  font-weight:400;
+  letter-spacing:5px;
+}
+
+.hero p{
+  max-width:680px;
+  margin:25px auto 0;
+  color:#657b90;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.hero-buttons{
+  margin-top:35px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn-primary,
+.btn-secondary{
+  padding:14px 23px;
+  border-radius:7px;
+  text-decoration:none;
+  font-size:11px;
+  letter-spacing:1px;
+  transition:.25s;
+}
+
+.btn-primary{
+  color:white;
+  background:linear-gradient(100deg,#006eff,#16a2ff);
+  box-shadow:0 0 30px rgba(0,110,255,.2);
+}
+
+.btn-secondary{
+  border:1px solid #183a58;
+  color:#8da7bd;
+  background:rgba(8,20,32,.5);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover{
+  transform:translateY(-3px);
+}
+
+/* ================= TERMINAL ================= */
+
+.terminal{
+  max-width:850px;
+  margin:0 auto;
+  border:1px solid #15334e;
+  background:rgba(3,9,16,.88);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.55),
+    0 0 40px rgba(0,100,255,.08);
+  text-align:left;
+}
+
+.terminal-head{
+  height:38px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:0 14px;
+  border-bottom:1px solid #10283d;
+  background:#07101a;
+}
+
+.circle{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#27435c;
+}
+
+.terminal-title{
+  margin-left:auto;
+  margin-right:auto;
+  color:#456078;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.terminal-body{
+  padding:20px;
+  min-height:210px;
+  font-family:monospace;
+  font-size:12px;
+  line-height:2;
+  color:#659ac4;
+}
+
+.t-green{
+  color:#51e7a1;
+}
+
+.t-blue{
+  color:#3ea7ff;
+}
+
+.t-gray{
+  color:#536b80;
+}
+
+.cursor{
+  display:inline-block;
+  width:7px;
+  height:13px;
+  background:#3ea7ff;
+  animation:blink .8s infinite;
+}
+
+@keyframes blink{
+  50%{opacity:0}
+}
+
+/* ================= SECTION ================= */
+
+section{
+  padding:100px 7%;
+}
+
+.section-label{
+  color:#328fff;
+  font-size:10px;
+  letter-spacing:4px;
+  margin-bottom:13px;
+}
+
+.section-title{
+  font-size:clamp(30px,5vw,52px);
+  letter-spacing:1px;
+}
+
+.section-desc{
+  color:#60788e;
+  max-width:650px;
+  line-height:1.8;
+  margin-top:15px;
+}
+
+/* ================= CARDS ================= */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:40px;
+}
+
+.card{
+  position:relative;
+  padding:28px;
+  min-height:210px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(13,30,48,.75),
+      rgba(4,10,17,.85)
+    );
+  border:1px solid #132b42;
+  border-radius:13px;
+  overflow:hidden;
+  transition:.3s;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-60px;
+  top:-60px;
+  border-radius:50%;
+  background:rgba(0,120,255,.1);
+  filter:blur(20px);
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:#1d659c;
+  box-shadow:0 15px 50px rgba(0,70,150,.12);
+}
+
+.card-number{
+  font-family:monospace;
+  color:#245c87;
+  font-size:11px;
+}
+
+.card h3{
+  margin-top:30px;
+  font-size:18px;
+}
+
+.card p{
+  color:#637b91;
+  line-height:1.7;
+  font-size:13px;
+  margin-top:12px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid #12263a;
+  border-bottom:1px solid #12263a;
+}
+
+.stat{
+  padding:35px 20px;
+  text-align:center;
+  border-right:1px solid #12263a;
+}
+
+.stat:last-child{
+  border-right:0;
+}
+
+.stat strong{
+  display:block;
+  font-size:35px;
+  color:#66b9ff;
+}
+
+.stat span{
+  color:#536b80;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+/* ================= FEED ================= */
+
+.feed{
+  max-width:850px;
+  margin:40px auto 0;
+}
+
+.feed-item{
+  padding:22px;
+  margin-bottom:10px;
+  border:1px solid #12283e;
+  background:rgba(5,12,20,.8);
+  border-radius:10px;
+}
+
+.feed-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.tag{
+  font-size:9px;
+  color:#4baaff;
+  border:1px solid #17466c;
+  padding:4px 7px;
+  border-radius:4px;
+}
+
+.feed h3{
+  margin-top:12px;
+  font-size:16px;
+}
+
+.feed p{
+  color:#61788d;
+  font-size:12px;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+/* ================= CTA ================= */
+
+.cta{
+  text-align:center;
+  padding:120px 20px;
+  border-top:1px solid #10263b;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(0,80,180,.13),
+      transparent 60%
+    );
+}
+
+.cta h2{
+  font-size:clamp(35px,7vw,75px);
+  letter-spacing:7px;
+}
+
+.cta p{
+  color:#60788e;
+  margin:18px auto 30px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  padding:35px 7%;
+  border-top:1px solid #10263b;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:#40566a;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:800px){
+
+  .nav-links{
+    display:none;
+  }
+
+  nav{
+    padding:0 18px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stat:nth-child(2){
+    border-right:0;
+  }
+
+  .stat:nth-child(-n+2){
+    border-bottom:1px solid #12263a;
+  }
+
+  section{
+    padding:75px 18px;
+  }
+
+  .hero h1{
+    letter-spacing:7px;
+  }
+
+  footer{
+    flex-direction:column;
+  }
+
+}
+
+@media(max-width:420px){
+
+  .nav-btn{
+    display:none;
+  }
+
+  .terminal-body{
+    font-size:10px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="grid-bg"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+
+<!-- ================= NAV ================= -->
+
+<nav>
+
+  <div class="logo">
+
+    <img
+      src="https://i.ibb.co.com/ZpZ7CqGM/1790920986512.jpg"
+      alt="XSANDOR">
+
+    XSANDOR
+
+  </div>
+
+  <div class="nav-links">
+
+    <a href="#about">ABOUT</a>
+    <a href="#research">RESEARCH</a>
+    <a href="#intel">INTEL</a>
+    <a href="#community">COMMUNITY</a>
+
+  </div>
+
+  <a
+    class="nav-btn"
+    href="#community">
+    ENTER NETWORK
+  </a>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="status">
+      <span class="status-dot"></span>
+      NETWORK STATUS : OPERATIONAL
+    </div>
+
+    <h1>XSANDOR</h1>
+
+    <h2>CYBER INTELLIGENCE • RESEARCH • SOLIDARITY</h2>
+
+    <p>
+      Sebuah ruang untuk eksplorasi teknologi,
+      penelitian keamanan digital, pertukaran informasi,
+      dan membangun solidaritas di antara para penggiat
+      dunia cyber.
+    </p>
+
+    <div class="hero-buttons">
+
+      <a
+        href="#research"
+        class="btn-primary">
+        EXPLORE NETWORK
+      </a>
+
+      <a
+        href="#about"
+        class="btn-secondary">
+        READ MANIFESTO
+      </a>
+
+    </div>
+
+    <br><br><br>
+
+    <div class="terminal">
+
+      <div class="terminal-head">
+
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+
+        <span class="terminal-title">
+          XSANDOR_CORE
+        </span>
+
+      </div>
+
+      <div class="terminal-body">
+
+        <div>
+          <span class="t-green">[ OK ]</span>
+          initializing network...
+        </div>
+
+        <div>
+          <span class="t-green">[ OK ]</span>
+          security modules loaded
+        </div>
+
+        <div>
+          <span class="t-blue">[ INFO ]</span>
+          intelligence database ready
+        </div>
+
+        <div>
+          <span class="t-gray">[ SYSTEM ]</span>
+          monitoring digital landscape
+        </div>
+
+        <div>
+          <span class="t-blue">XSANDOR@CORE:~$</span>
+          establish_connection
+        </div>
+
+        <div>
+          <span class="t-green">
+            connection established.
+          </span>
+          <span class="cursor"></span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about">
+
+  <div class="section-label">
+    01 / IDENTITY
+  </div>
+
+  <h2 class="section-title">
+    Beyond the screen.
+  </h2>
+
+  <p class="section-desc">
+    XSANDOR dibangun sebagai ruang berbagi
+    pengetahuan dan perspektif mengenai dunia digital.
+    Fokus kami adalah memahami teknologi, menemukan
+    kelemahan secara bertanggung jawab, dan memperkuat
+    kesadaran keamanan.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+
+      <div class="card-number">
+        NODE_01
+      </div>
+
+      <h3>Research</h3>
+
+      <p>
+        Eksplorasi teknologi dan penelitian
+        keamanan untuk memahami bagaimana
+        sistem bekerja dan bagaimana sistem
+        dapat diperkuat.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-number">
+        NODE_02
+      </div>
+
+      <h3>Intelligence</h3>
+
+      <p>
+        Mengumpulkan dan membahas informasi
+        keamanan digital, berita teknologi,
+        vulnerability disclosure, serta
+        perkembangan threat landscape.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-number">
+        NODE_03
+      </div>
+
+      <h3>Solidarity</h3>
+
+      <p>
+        Perbedaan latar belakang bukan alasan
+        untuk berhenti berbagi pengetahuan.
+        Respect, diskusi, dan solidaritas
+        menjadi fondasi jaringan.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<div class="stats">
+
+  <div class="stat">
+    <strong>01</strong>
+    <span>NETWORK</span>
+  </div>
+
+  <div class="stat">
+    <strong>∞</strong>
+    <span>KNOWLEDGE</span>
+  </div>
+
+  <div class="stat">
+    <strong>24/7</strong>
+    <span>OBSERVATION</span>
+  </div>
+
+  <div class="stat">
+    <strong>01</strong>
+    <span>SOLIDARITY</span>
+  </div>
+
+</div>
+
+
+<!-- ================= RESEARCH ================= -->
+
+<section id="research">
+
+  <div class="section-label">
+    02 / RESEARCH
+  </div>
+
+  <h2 class="section-title">
+    Understand the weakness.
+  </h2>
+
+  <p class="section-desc">
+    Informasi keamanan bukan sekadar kumpulan
+    istilah teknis. Setiap kerentanan harus dipahami
+    agar sistem dapat diperbaiki dan pengguna dapat
+    melindungi dirinya.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+
+      <div class="card-number">
+        RESEARCH / 001
+      </div>
+
+      <h3>Web Security</h3>
+
+      <p>
+        Authentication, authorization, session,
+        input validation, API security, dan
+        konsep keamanan aplikasi web.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-number">
+        RESEARCH / 002
+      </div>
+
+      <h3>Threat Analysis</h3>
+
+      <p>
+        Menganalisis ancaman digital,
+        attack patterns, dan indikator
+        kompromi secara edukatif.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-number">
+        RESEARCH / 003
+      </div>
+
+      <h3>Digital Defense</h3>
+
+      <p>
+        Hardening, monitoring, incident response,
+        dan pendekatan defensif untuk memperkuat
+        infrastruktur digital.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= INTEL ================= -->
+
+<section id="intel">
+
+  <div class="section-label">
+    03 / INTELLIGENCE
+  </div>
+
+  <h2 class="section-title">
+    Latest intelligence.
+  </h2>
+
+  <div class="feed">
+
+    <div class="feed-item">
+
+      <div class="feed-top">
+        <span class="tag">RESEARCH</span>
+        <span class="t-gray">
+          XS-001
+        </span>
+      </div>
+
+      <h3>
+        Understanding modern web vulnerabilities
+      </h3>
+
+      <p>
+        Memahami akar masalah vulnerability
+        dan bagaimana developer dapat
+        mengurangi attack surface.
+      </p>
+
+    </div>
+
+
+    <div class="feed-item">
+
+      <div class="feed-top">
+        <span class="tag">SECURITY</span>
+        <span class="t-gray">
+          XS-002
+        </span>
+      </div>
+
+      <h3>
+        Digital security awareness
+      </h3>
+
+      <p>
+        Kesadaran keamanan menjadi lapisan
+        pertahanan pertama dalam ekosistem
+        digital modern.
+      </p>
+
+    </div>
+
+
+    <div class="feed-item">
+
+      <div class="feed-top">
+        <span class="tag">INTEL</span>
+        <span class="t-gray">
+          XS-003
+        </span>
+      </div>
+
+      <h3>
+        The network is always evolving.
+      </h3>
+
+      <p>
+        Teknologi berubah setiap hari.
+        Pengetahuan harus bergerak lebih cepat
+        daripada ancamannya.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= COMMUNITY ================= -->
+
+<section id="community" class="cta">
+
+  <div class="section-label">
+    04 / COMMUNITY
+  </div>
+
+  <h2>ENTER XSANDOR</h2>
+
+  <p>
+    Learn. Research. Share. Defend.
+  </p>
+
+  <a
+    href="https://chat.whatsapp.com/FilQw6097iQGC37t9nJRop?s=cl&p=a&mlu=4&ilr=4"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-primary">
+
+    JOIN COMMUNITY
+
+  </a>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  <span>
+    © 2026 XSANDOR NETWORK
+  </span>
+
+  <span>
+    CYBER INTELLIGENCE / RESEARCH / SOLIDARITY
+  </span>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   MATRIX BACKGROUND
+===================================================== */
+
+const canvas =
+  document.getElementById("matrix");
+
+const ctx =
+  canvas.getContext("2d");
+
+let width;
+let height;
+let columns;
+let drops;
+
+function resize(){
+
+  width =
+    canvas.width =
+    window.innerWidth;
+
+  height =
+    canvas.height =
+    window.innerHeight;
+
+  columns =
+    Math.floor(width / 18);
+
+  drops =
+    Array(columns)
+      .fill(1);
+
+}
+
+resize();
+
+window.addEventListener(
+  "resize",
+  resize
+);
+
+
+const chars =
+  "01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>[]{}#$%";
+
+
+function draw(){
+
+  ctx.fillStyle =
+    "rgba(2,5,10,.075)";
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  ctx.font =
+    "12px monospace";
+
+  for(
+    let i = 0;
+    i < drops.length;
+    i++
+  ){
+
+    const char =
+      chars[
+        Math.floor(
+          Math.random() *
+          chars.length
+        )
+      ];
+
+    ctx.fillStyle =
+      "rgba(30,145,255,.7)";
+
+    ctx.fillText(
+      char,
+      i * 18,
+      drops[i] * 18
+    );
+
+
+    if(
+      drops[i] * 18 >
+      height &&
+      Math.random() > .975
+    ){
+
+      drops[i] = 0;
+
+    }
+
+    drops[i]++;
+
+  }
+
+}
+
+setInterval(
+  draw,
+  45
+);
+
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
+
+const observer =
+  new IntersectionObserver(
+    entries => {
+
+      entries.forEach(
+        entry => {
+
+          if(entry.isIntersecting){
+
+            entry.target.style.opacity =
+              "1";
+
+            entry.target.style.transform =
+              "translateY(0)";
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold:.08
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    ".card,.feed-item,.terminal"
+  )
+  .forEach(
+    element => {
+
+      element.style.opacity = "0";
+
+      element.style.transform =
+        "translateY(25px)";
+
+      element.style.transition =
+        "opacity .7s ease, transform .7s ease";
+
+      observer.observe(element);
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
